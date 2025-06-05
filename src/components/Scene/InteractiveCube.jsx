@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
 import { gsap } from 'gsap'
@@ -14,10 +14,62 @@ const InteractiveCube = ({ currentSection = 0, totalSections = 4 }) => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [currentGeometry, setCurrentGeometry] = useState(0)
   const [isCustomModel, setIsCustomModel] = useState(true) // Always true now
+  const [modelsLoaded, setModelsLoaded] = useState(false)
+  const [loadingError, setLoadingError] = useState(null)
 
-  // Load custom GLTF models
-  const { scene: logoModel } = useGLTF('/models/elevtober_logo.gltf')
-  const { scene: logoWordModel } = useGLTF('/models/Elevtober_Logo_Word_0605034416_generate.gltf')
+  // Get base URL for assets
+  const baseUrl = import.meta.env.BASE_URL || '/'
+  console.log('Base URL:', baseUrl)
+  
+  // Load custom GLTF models - these hooks must be called unconditionally
+  const logoModelUrl = `${baseUrl}models/elevtober_logo.gltf`
+  const logoWordModelUrl = `${baseUrl}models/Elevtober_Logo_Word_0605034416_generate.gltf`
+  
+  console.log('Loading models from:', { logoModelUrl, logoWordModelUrl })
+  
+  let logoGLTF, logoWordGLTF, logoModel, logoWordModel
+  let hasLoadingErrors = false
+  
+  try {
+    logoGLTF = useGLTF(logoModelUrl)
+    logoModel = logoGLTF?.scene
+  } catch (error) {
+    console.error('Failed to load logo model:', error)
+    hasLoadingErrors = true
+  }
+  
+  try {
+    logoWordGLTF = useGLTF(logoWordModelUrl)
+    logoWordModel = logoWordGLTF?.scene
+  } catch (error) {
+    console.error('Failed to load logo word model:', error)
+    hasLoadingErrors = true
+  }
+
+  // Check if models are loaded
+  useEffect(() => {
+    console.log('Model loading status:', {
+      logoModel: !!logoModel,
+      logoWordModel: !!logoWordModel,
+      hasLoadingErrors,
+      baseUrl,
+      logoModelUrl,
+      logoWordModelUrl
+    })
+    
+    if (hasLoadingErrors) {
+      console.warn('Some models failed to load, using fallback')
+      setLoadingError('Model loading failed')
+      setModelsLoaded(false)
+    } else if (logoModel && logoWordModel) {
+      console.log('All models loaded successfully')
+      setModelsLoaded(true)
+      setLoadingError(null)
+    } else {
+      console.warn('Models not yet loaded or missing')
+      setModelsLoaded(false)
+    }
+  }, [logoModel, logoWordModel, hasLoadingErrors, baseUrl, logoModelUrl, logoWordModelUrl])
 
   // Function to apply color to GLTF model materials
   const applyColorToModel = (model, color, isWhiteSection = false) => {
@@ -181,8 +233,22 @@ const InteractiveCube = ({ currentSection = 0, totalSections = 4 }) => {
 
   return (
     <>
+      {/* Loading fallback or error state */}
+      {!modelsLoaded && (
+        <group ref={groupRef} scale={[2.0, 2.0, 2.0]}>
+          <mesh castShadow receiveShadow>
+            <boxGeometry args={[1, 1, 1]} />
+            <meshStandardMaterial 
+              color={targetColor} 
+              metalness={0.2}
+              roughness={0.3}
+            />
+          </mesh>
+        </group>
+      )}
+
       {/* Custom 3D models - alternating between logo and logo word */}
-      {(() => {
+      {modelsLoaded && (() => {
         const currentConfig = geometryConfigs[currentSection % geometryConfigs.length]
         const currentModel = currentConfig.model
         const currentColor = sectionColors[currentSection % sectionColors.length]
@@ -198,7 +264,19 @@ const InteractiveCube = ({ currentSection = 0, totalSections = 4 }) => {
               }}
             />
           </group>
-        ) : null
+        ) : (
+          // Fallback cube if model fails to load
+          <group ref={groupRef} scale={[2.0, 2.0, 2.0]}>
+            <mesh castShadow receiveShadow>
+              <boxGeometry args={[1, 1, 1]} />
+              <meshStandardMaterial 
+                color={currentColor} 
+                metalness={0.2}
+                roughness={0.3}
+              />
+            </mesh>
+          </group>
+        )
       })()}
     </>
   )

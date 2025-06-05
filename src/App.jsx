@@ -4,6 +4,7 @@ import DynamicBackground from './components/Background/DynamicBackground'
 import Header from './components/Layout/Header'
 import Scene from './components/Scene/Scene'
 import Loader from './components/UI/Loader'
+import ErrorBoundary from './components/Scene/ErrorBoundary'
 import EnhancedScrollContent from './components/ScrollContent/EnhancedScrollContent'
 import './App.css'
 
@@ -26,17 +27,19 @@ function App() {
       <Header />
       
       <div className="canvas-container">
-        <Canvas
-          camera={{ position: [0, 0, 5], fov: 75 }}
-          gl={{ antialias: true, alpha: true }}
-        >
-          <Suspense fallback={<Loader />}>
-            <Scene 
-              currentSection={currentSection} 
-              totalSections={totalSections}
-            />
-          </Suspense>
-        </Canvas>
+        <ErrorBoundary>
+          <Canvas
+            camera={{ position: [0, 0, 5], fov: 75 }}
+            gl={{ antialias: true, alpha: true }}
+          >
+            <Suspense fallback={<Loader />}>
+              <Scene 
+                currentSection={currentSection} 
+                totalSections={totalSections}
+              />
+            </Suspense>
+          </Canvas>
+        </ErrorBoundary>
       </div>
 
       <EnhancedScrollContent onSectionChange={handleSectionChange} />
