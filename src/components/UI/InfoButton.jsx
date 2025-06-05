@@ -49,7 +49,7 @@ const InfoButton = () => {
                 <span><strong>THIS DEMO SHOWS THE POSSIBLE MAIN PAGE DESIGN</strong></span>
                 <div className="feature-item">
                   <span className="feature-icon">🎯</span>
-                  <span>Interactive 3D Elevtober logo model</span>
+                  <span>Interactive 3D Custom Elevtober logo model</span>
                 </div>
                 <div className="feature-item">
                   <span className="feature-icon">✨</span>
