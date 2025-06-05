@@ -4,5 +4,5 @@ import react from '@vitejs/plugin-react-swc'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/elevtober_3d/'
+  base: 'https://juanmaacampos.github.io/elevtober_3d_demo/'
 })
