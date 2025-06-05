@@ -1,0 +1,44 @@
+.scroll-progress-container {
+  position: fixed;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  pointer-events: none;
+}
+
+.scroll-progress-track {
+  position: relative;
+  width: 4px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  backdrop-filter: blur(10px);
+}
+
+.scroll-progress-fill {
+  width: 100%;
+  border-radius: 2px;
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  position: absolute;
+  bottom: 0;
+  will-change: height, background-color;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .scroll-progress-container {
+    right: 1rem;
+  }
+  
+  .scroll-progress-track {
+    width: 3px;
+    height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .scroll-progress-track {
+    height: 120px;
+  }
+}
