@@ -1,48 +1,51 @@
-import { Canvas } from '@react-three/fiber'
-import { Suspense, useState } from 'react'
-import DynamicBackground from './components/Background/DynamicBackground'
-import Header from './components/Layout/Header'
-import Scene from './components/Scene/Scene'
-import Loader from './components/UI/Loader'
-import ErrorBoundary from './components/Scene/ErrorBoundary'
-import EnhancedScrollContent from './components/ScrollContent/EnhancedScrollContent'
-import './App.css'
+import React, { useState } from 'react'
+import Scene3D from './components/Scene3D/Scene3D'
+import Header from './components/Layout/Header/Header'
+import HeroSection from './components/Layout/HeroSection/HeroSection'
+import BackgroundEffects from './components/Layout/BackgroundEffects/BackgroundEffects'
+import Footer from './components/Layout/Footer/Footer'
+import ExploreMenu from './components/Layout/ExploreMenu/ExploreMenu.jsx'
+import './styles/App.css'
 
 function App() {
-  const [currentSection, setCurrentSection] = useState(0)
-  const [scrollProgress, setScrollProgress] = useState(0)
-  const totalSections = 4
+  const [isExploreMenuVisible, setIsExploreMenuVisible] = useState(false)
+  const [currentSection, setCurrentSection] = useState('home')
 
-  const handleSectionChange = (newSection, progress = 0) => {
-    setCurrentSection(newSection)
-    setScrollProgress(progress)
+  const handleExploreClick = () => {
+    setIsExploreMenuVisible(true)
+  }
+
+  const handleMenuClose = () => {
+    setIsExploreMenuVisible(false)
+  }
+
+  const handleSectionSelect = (sectionId) => {
+    setCurrentSection(sectionId)
+    setIsExploreMenuVisible(false)
+    console.log('Selected section:', sectionId)
+  }
+
+  const handleLogoClick = () => {
+    // Reset to initial state
+    setIsExploreMenuVisible(false)
+    setCurrentSection('home')
+    console.log('Logo clicked - returning to initial state')
   }
 
   return (
-    <div className="app">
-      <DynamicBackground 
-        currentSection={currentSection} 
-        scrollProgress={scrollProgress}
-      />
-      <Header />
-      
-      <div className="canvas-container">
-        <ErrorBoundary>
-          <Canvas
-            camera={{ position: [0, 0, 5], fov: 75 }}
-            gl={{ antialias: true, alpha: true }}
-          >
-            <Suspense fallback={<Loader />}>
-              <Scene 
-                currentSection={currentSection} 
-                totalSections={totalSections}
-              />
-            </Suspense>
-          </Canvas>
-        </ErrorBoundary>
+    <div className={`app ${isExploreMenuVisible ? 'menu-open' : ''}`}>
+      <BackgroundEffects />
+      <Header onLogoClick={handleLogoClick} />
+      <div className="main-content">
+        <Scene3D />
+        <HeroSection onExploreClick={handleExploreClick} />
       </div>
-
-      <EnhancedScrollContent onSectionChange={handleSectionChange} />
+      <Footer />
+      <ExploreMenu 
+        isVisible={isExploreMenuVisible}
+        onClose={handleMenuClose}
+        onSectionSelect={handleSectionSelect}
+      />
     </div>
   )
 }

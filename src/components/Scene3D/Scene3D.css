@@ -1,0 +1,50 @@
+.scene3d-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;   /* Asegura que ocupe todo el ancho de la ventana */
+  height: 100vh;  /* Asegura que ocupe todo el alto de la ventana */
+  z-index: 1;
+  pointer-events: auto;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.canvas {
+  width: 100vw !important;   /* Fuerza a ocupar todo el ancho */
+  height: 100vh !important;  /* Fuerza a ocupar todo el alto */
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+/* Add subtle glow effect to the 3D scene with brand colors */
+.scene3d-container::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(239, 68, 68, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .scene3d-container::after {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .scene3d-container::after {
+    width: 180px;
+    height: 180px;
+  }
+}

@@ -1,0 +1,136 @@
+.explore-menu-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 450px;
+  height: 100vh;
+  z-index: 2000;
+  transform: translateX(100%);
+  transition: transform 0.6s ease;
+}
+
+.explore-menu-overlay.visible {
+  transform: translateX(0);
+}
+
+.explore-menu {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.explore-menu-header {
+  margin-bottom: 3rem;
+}
+
+.explore-menu-number {
+  font-family: 'Orbitron', 'Exo 2', monospace;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+}
+
+.explore-menu-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+}
+
+.explore-menu-item {
+  padding: 1.5rem 0;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.explore-menu-item::before {
+  content: '';
+  position: absolute;
+  left: -100%;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.explore-menu-item:hover::before {
+  left: 100%;
+}
+
+.explore-menu-item:hover {
+  transform: translateX(-15px) scale(1.02);
+  border-bottom-color: rgba(239, 68, 68, 0.4);
+}
+
+.explore-menu-item-label {
+  font-family: 'Rajdhani', 'Exo 2', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  line-height: 1.2;
+  text-shadow: 0 0 0 transparent;
+  white-space: nowrap;
+  transform-origin: left center;
+}
+
+.explore-menu-item:hover .explore-menu-item-label {
+  color: white;
+  font-weight: 800;
+  transform: scaleX(1.05) scaleY(1.1);
+  text-shadow: 0 0 25px rgba(239, 68, 68, 0.4), 0 0 50px rgba(239, 68, 68, 0.2);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .explore-menu-overlay {
+    width: 100vw;
+    right: 0;
+  }
+  
+  .explore-menu {
+    padding: 2rem 1.5rem;
+  }
+  
+  .explore-menu-item-label {
+    font-size: 2.2rem;
+    letter-spacing: 0.08em;
+  }
+  
+  .explore-menu-item:hover .explore-menu-item-label {
+    transform: scaleX(1.03) scaleY(1.08);
+  }
+}
+
+@media (max-width: 480px) {
+  .explore-menu-item-label {
+    font-size: 2rem;
+    letter-spacing: 0.06em;
+  }
+  
+  .explore-menu-nav {
+    gap: 0;
+  }
+  
+  .explore-menu-item {
+    padding: 1.2rem 0;
+  }
+  
+  .explore-menu-item:hover .explore-menu-item-label {
+    transform: scaleX(1.02) scaleY(1.06);
+  }
+}
