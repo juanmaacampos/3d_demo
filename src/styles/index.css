@@ -28,8 +28,13 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.25em;
   text-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
-  font-size: rem;
+  font-size: 2rem;
   line-height: 1.2;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .futuristic-subtitle {
@@ -39,12 +44,22 @@ body {
   letter-spacing: 0.2em;
   font-size: 1.3rem;
   line-height: 1.3;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .futuristic-text {
   font-family: 'Exo 2', sans-serif;
   font-weight: 300;
   letter-spacing: 0.05em;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /* Smooth scrolling */

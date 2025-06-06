@@ -18,7 +18,7 @@ const InfoButton = () => {
   return (
     <>
       <Button 
-        className="info-button"
+        className={`info-button ${isModalOpen ? 'info-button-hidden' : ''}`}
         onClick={handleToggleModal}
         variant="secondary"
         size="small"
@@ -56,8 +56,12 @@ const InfoButton = () => {
                   <span>Smooth animations and transitions</span>
                 </div>
                 <div className="feature-item">
-                  <span className="feature-icon">⚙️</span>
+                  <span className="feature-icon">💡</span>
                   <span>Based on ohzi.io (as we discussed in the meeting)</span>
+                </div>
+                     <div className="feature-item">
+                  <span className="feature-icon">⚙️</span>
+                  <span>Optimized for mobile and desktop</span>
                 </div>
               </div>
               <p className="info-modal-tech">

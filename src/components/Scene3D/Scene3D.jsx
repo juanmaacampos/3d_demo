@@ -13,8 +13,19 @@ const FloatingLogo = () => {
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
   const [baseRotation, setBaseRotation] = useState({ x: 0, y: 0, z: 0 })
   const [dragRotation, setDragRotation] = useState({ x: 0, y: 0 })
+  const [isMobile, setIsMobile] = useState(false)
   
   const { gl } = useThree()
+
+  // Detect mobile device
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768 || 'ontouchstart' in window)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   // Get base URL for assets
   const baseUrl = import.meta.env.BASE_URL || '/'
@@ -120,8 +131,18 @@ const FloatingLogo = () => {
   const handlePointerDown = (event) => {
     event.stopPropagation()
     setIsDragging(true)
-    setDragStart({ x: event.clientX, y: event.clientY })
+    
+    // Handle both mouse and touch events
+    const clientX = event.touches ? event.touches[0].clientX : event.clientX
+    const clientY = event.touches ? event.touches[0].clientY : event.clientY
+    
+    setDragStart({ x: clientX, y: clientY })
     gl.domElement.style.cursor = 'grabbing'
+    
+    // Prevent default touch behavior on mobile
+    if (event.touches) {
+      event.preventDefault()
+    }
     
     // Guardar rotación base
     if (meshRef.current) {
@@ -136,13 +157,25 @@ const FloatingLogo = () => {
 
   const handlePointerMove = (event) => {
     if (!isDragging) return
-    // Solo rotación, no traslación
-    const deltaX = (event.clientX - dragStart.x) * 0.01
-    const deltaY = (event.clientY - dragStart.y) * 0.01
+    
+    // Handle both mouse and touch events
+    const clientX = event.touches ? event.touches[0].clientX : event.clientX
+    const clientY = event.touches ? event.touches[0].clientY : event.clientY
+    
+    // Adjust sensitivity for mobile
+    const sensitivity = isMobile ? 0.008 : 0.01
+    const deltaX = (clientX - dragStart.x) * sensitivity
+    const deltaY = (clientY - dragStart.y) * sensitivity
+    
     setDragRotation({
       x: -deltaY,
       y: deltaX
     })
+    
+    // Prevent default touch behavior on mobile
+    if (event.touches) {
+      event.preventDefault()
+    }
   }
 
   const handlePointerUp = () => {
@@ -162,14 +195,23 @@ const FloatingLogo = () => {
     if (isDragging) {
       const handleMouseMove = (e) => handlePointerMove(e)
       const handleMouseUp = () => handlePointerUp()
+      const handleTouchMove = (e) => handlePointerMove(e)
+      const handleTouchEnd = () => handlePointerUp()
+      
+      // Add both mouse and touch event listeners
       document.addEventListener('mousemove', handleMouseMove)
       document.addEventListener('mouseup', handleMouseUp)
+      document.addEventListener('touchmove', handleTouchMove, { passive: false })
+      document.addEventListener('touchend', handleTouchEnd)
+      
       return () => {
         document.removeEventListener('mousemove', handleMouseMove)
         document.removeEventListener('mouseup', handleMouseUp)
+        document.removeEventListener('touchmove', handleTouchMove)
+        document.removeEventListener('touchend', handleTouchEnd)
       }
     }
-  }, [isDragging, dragStart, baseRotation])
+  }, [isDragging, dragStart, baseRotation, isMobile])
 
   // Fallback cube si falla el modelo
   if (error || !scene) {
@@ -222,10 +264,11 @@ const FloatingLogo = () => {
   return (
     <group
       ref={meshRef}
-      scale={[20, 20, 20]} // Cambia estos valores para el tamaño del modelo GLTF
+      scale={[20, 20, 20]}
       castShadow
       receiveShadow
       onPointerDown={handlePointerDown}
+      onTouchStart={handlePointerDown}
       onPointerEnter={() => !isDragging && (gl.domElement.style.cursor = 'grab')}
       onPointerLeave={() => !isDragging && (gl.domElement.style.cursor = 'default')}
     >

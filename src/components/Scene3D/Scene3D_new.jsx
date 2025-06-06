@@ -12,8 +12,19 @@ const FloatingCube = () => {
   const [isDragging, setIsDragging] = useState(false)
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
   const [cubePosition, setCubePosition] = useState({ x: 0, y: 0, z: 0 })
+  const [isMobile, setIsMobile] = useState(false)
   
   const { camera, gl } = useThree()
+
+  // Detect mobile device
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768 || 'ontouchstart' in window)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   useFrame((state) => {
     const time = state.clock.elapsedTime
@@ -57,15 +68,31 @@ const FloatingCube = () => {
   const handlePointerDown = (event) => {
     event.stopPropagation()
     setIsDragging(true)
-    setDragStart({ x: event.clientX, y: event.clientY })
+    
+    // Handle both mouse and touch events
+    const clientX = event.touches ? event.touches[0].clientX : event.clientX
+    const clientY = event.touches ? event.touches[0].clientY : event.clientY
+    
+    setDragStart({ x: clientX, y: clientY })
     gl.domElement.style.cursor = 'grabbing'
+    
+    // Prevent default touch behavior on mobile
+    if (event.touches) {
+      event.preventDefault()
+    }
   }
 
   const handlePointerMove = (event) => {
     if (!isDragging) return
     
-    const deltaX = (event.clientX - dragStart.x) * 0.01
-    const deltaY = -(event.clientY - dragStart.y) * 0.01
+    // Handle both mouse and touch events
+    const clientX = event.touches ? event.touches[0].clientX : event.clientX
+    const clientY = event.touches ? event.touches[0].clientY : event.clientY
+    
+    // Adjust sensitivity for mobile
+    const sensitivity = isMobile ? 0.008 : 0.01
+    const deltaX = (clientX - dragStart.x) * sensitivity
+    const deltaY = -(clientY - dragStart.y) * sensitivity
     
     setCubePosition(prev => ({
       x: prev.x + deltaX,
@@ -73,7 +100,12 @@ const FloatingCube = () => {
       z: prev.z
     }))
     
-    setDragStart({ x: event.clientX, y: event.clientY })
+    setDragStart({ x: clientX, y: clientY })
+    
+    // Prevent default touch behavior on mobile
+    if (event.touches) {
+      event.preventDefault()
+    }
   }
 
   const handlePointerUp = () => {
@@ -86,9 +118,10 @@ const FloatingCube = () => {
       const handleGlobalMove = (event) => handlePointerMove(event)
       const handleGlobalUp = () => handlePointerUp()
       
+      // Add both mouse and touch event listeners
       window.addEventListener('mousemove', handleGlobalMove)
       window.addEventListener('mouseup', handleGlobalUp)
-      window.addEventListener('touchmove', handleGlobalMove)
+      window.addEventListener('touchmove', handleGlobalMove, { passive: false })
       window.addEventListener('touchend', handleGlobalUp)
       
       return () => {
@@ -98,7 +131,7 @@ const FloatingCube = () => {
         window.removeEventListener('touchend', handleGlobalUp)
       }
     }
-  }, [isDragging])
+  }, [isDragging, isMobile])
 
   return (
     <group>
@@ -108,6 +141,7 @@ const FloatingCube = () => {
         castShadow 
         receiveShadow
         onPointerDown={handlePointerDown}
+        onTouchStart={handlePointerDown}
         onPointerEnter={() => !isDragging && (gl.domElement.style.cursor = 'grab')}
         onPointerLeave={() => !isDragging && (gl.domElement.style.cursor = 'default')}
       >

@@ -9,6 +9,14 @@
   margin: 0;
   padding: 0;
   overflow: hidden;
+  /* Improve touch interaction on mobile */
+  touch-action: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .canvas {
@@ -17,6 +25,8 @@
   display: block;
   margin: 0;
   padding: 0;
+  /* Prevent touch scrolling and zooming */
+  touch-action: none;
 }
 
 /* Add subtle glow effect to the 3D scene with brand colors */
@@ -36,6 +46,18 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .scene3d-container {
+    /* Ensure proper touch handling on mobile */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .canvas {
+    /* Prevent context menu on long press */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  
   .scene3d-container::after {
     width: 250px;
     height: 250px;

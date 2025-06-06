@@ -16,6 +16,7 @@
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
+  pointer-events: none;
 }
 
 .hero-title {
@@ -32,13 +33,15 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
-  /* Make text non-selectable */
+  /* Make text non-selectable and non-interactive */
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   pointer-events: none;
   position: relative;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .hero-title::after {
@@ -73,12 +76,14 @@
   max-width: 600px;
   text-transform: uppercase;
   letter-spacing: 0.25em;
-  /* Make text non-selectable */
+  /* Make text non-selectable and non-interactive */
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   pointer-events: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .hero-description {
@@ -96,12 +101,15 @@
   -ms-user-select: none;
   user-select: none;
   pointer-events: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .hero-button {
   margin-top: 1.5rem;
   /* Ensure button remains interactive */
   pointer-events: auto;
+  z-index: 1001;
 }
 
 /* Mobile styles */
@@ -109,22 +117,35 @@
   .hero-section {
     padding: 1rem;
     width: 95%;
+    /* Prevent any touch interference */
+    touch-action: none;
   }
   
   .hero-content {
     gap: 1.25rem;
+    /* Prevent touch interference */
+    touch-action: none;
   }
   
   .hero-title {
     letter-spacing: 0.25em;
+    /* Additional mobile touch prevention */
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
   }
   
   .hero-subtitle {
     letter-spacing: 0.18em;
+    /* Additional mobile touch prevention */
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
   }
   
   .hero-description {
     letter-spacing: 0.15em;
+    /* Additional mobile touch prevention */
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
   }
 }
 

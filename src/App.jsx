@@ -5,6 +5,7 @@ import HeroSection from './components/Layout/HeroSection/HeroSection'
 import BackgroundEffects from './components/Layout/BackgroundEffects/BackgroundEffects'
 import Footer from './components/Layout/Footer/Footer'
 import ExploreMenu from './components/Layout/ExploreMenu/ExploreMenu.jsx'
+import InfoButton from './components/UI/InfoButton'
 import './styles/App.css'
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
         <Scene3D />
         <HeroSection onExploreClick={handleExploreClick} />
       </div>
+      <InfoButton />
       <Footer />
       <ExploreMenu 
         isVisible={isExploreMenuVisible}
