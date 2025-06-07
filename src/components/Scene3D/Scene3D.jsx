@@ -1,13 +1,14 @@
 import React, { useRef, useState } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { PerspectiveCamera, useGLTF } from '@react-three/drei'
+import { PerspectiveCamera } from '@react-three/drei'
 import * as THREE from 'three'
 import './Scene3D.css'
 
-// Floating Logo Component with your GLTF model
+// Floating Logo Component with energy cube
 const FloatingLogo = () => {
   const meshRef = useRef()
-  const wireframeRef = useRef()
+  const innerEnergyRef = useRef()
+  const coreRef = useRef()
   const edgesRef = useRef()
   const [isDragging, setIsDragging] = useState(false)
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
@@ -27,102 +28,72 @@ const FloatingLogo = () => {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  // Get base URL for assets
-  const baseUrl = import.meta.env.BASE_URL || '/'
-  const logoModelUrl = `${baseUrl}models/elevtober_logo.gltf`
-  
-  // Load your GLTF model
-  const { scene, error } = useGLTF(logoModelUrl)
-
-  // Forzar color del modelo GLTF a #D12C45
-  React.useEffect(() => {
-    if (scene) {
-      scene.traverse((child) => {
-        if (child.isMesh && child.material) {
-          // Si el material es un array (multi-material)
-          if (Array.isArray(child.material)) {
-            child.material.forEach(mat => {
-              if (mat.color) mat.color.set('#D12C45')
-            })
-          } else {
-            if (child.material.color) child.material.color.set('#D12C45')
-          }
-        }
-      })
-    }
-  }, [scene])
-
-  // Log for debugging
-  React.useEffect(() => {
-    console.log('Loading model from:', logoModelUrl)
-    if (error) {
-      console.error('Error loading GLTF model:', error)
-    }
-    if (scene) {
-      console.log('GLTF model loaded successfully:', scene)
-    }
-  }, [scene, error, logoModelUrl])
-
   useFrame((state) => {
     const time = state.clock.elapsedTime
     
     if (meshRef.current) {
-      // Calcular rotación final
+      // Calculate final rotation
       let finalRotationX, finalRotationY, finalRotationZ
       
       if (isDragging) {
-        // Solo rotación, no posición ni escala animada durante drag
         finalRotationX = baseRotation.x + dragRotation.x
         finalRotationY = baseRotation.y + dragRotation.y
         finalRotationZ = baseRotation.z
       } else {
-        // Animación automática de rotación y flotación
-        finalRotationX = baseRotation.x + time * 0.3
-        finalRotationY = baseRotation.y + time * 0.5
-        finalRotationZ = baseRotation.z + time * 0.2
+        finalRotationX = baseRotation.x + time * 0.1
+        finalRotationY = baseRotation.y + time * 0.15
+        finalRotationZ = baseRotation.z + time * 0.05
       }
       
-      // Aplicar rotación
+      // Apply rotation to cube
       meshRef.current.rotation.set(finalRotationX, finalRotationY, finalRotationZ)
-      if (wireframeRef.current) {
-        wireframeRef.current.rotation.set(finalRotationX, finalRotationY, finalRotationZ)
-      }
       if (edgesRef.current) {
         edgesRef.current.rotation.set(finalRotationX, finalRotationY, finalRotationZ)
       }
       
-      // Solo animar posición y escala si NO se está arrastrando
+      // Animate inner energy core
+      if (innerEnergyRef.current) {
+        const energyIntensity = 0.3 + Math.sin(time * 3) * 0.2
+        innerEnergyRef.current.material.emissiveIntensity = energyIntensity
+        innerEnergyRef.current.rotation.set(
+          time * 0.8,
+          time * 1.2,
+          time * 0.6
+        )
+      }
+      
+      // Animate bright core
+      if (coreRef.current) {
+        const coreIntensity = 1.5 + Math.sin(time * 4) * 0.5
+        coreRef.current.material.emissiveIntensity = coreIntensity
+        const coreScale = 1 + Math.sin(time * 2) * 0.1
+        coreRef.current.scale.setScalar(coreScale)
+      }
+      
+      // Floating animation when not dragging
       if (!isDragging) {
-        // Flotación
-        const floatY = Math.sin(time * 0.8) * 0.3 + Math.sin(time * 1.5) * 0.1
-        const floatX = Math.cos(time * 0.5) * 0.1
+        const floatY = Math.sin(time * 0.8) * 0.1
+        const floatX = Math.cos(time * 0.5) * 0.05
         meshRef.current.position.set(floatX, floatY, 0)
-        if (wireframeRef.current) {
-          wireframeRef.current.position.set(floatX, floatY, 0)
-        }
         if (edgesRef.current) {
           edgesRef.current.position.set(floatX, floatY, 0)
         }
-        // Escalado "breathing"
-        const scale = 1 + Math.sin(time * 2) * 0.05
-        meshRef.current.scale.setScalar(scale)
-        if (wireframeRef.current) {
-          wireframeRef.current.scale.setScalar(scale)
+        if (innerEnergyRef.current) {
+          innerEnergyRef.current.position.set(floatX, floatY, 0)
         }
-        if (edgesRef.current) {
-          edgesRef.current.scale.setScalar(scale)
+        if (coreRef.current) {
+          coreRef.current.position.set(floatX, floatY, 0)
         }
       } else {
-        // Durante drag: posición y escala fijas
         meshRef.current.position.set(0, 0, 0)
-        meshRef.current.scale.setScalar(1)
-        if (wireframeRef.current) {
-          wireframeRef.current.position.set(0, 0, 0)
-          wireframeRef.current.scale.setScalar(1)
-        }
         if (edgesRef.current) {
           edgesRef.current.position.set(0, 0, 0)
-          edgesRef.current.scale.setScalar(1)
+        }
+        if (innerEnergyRef.current) {
+          innerEnergyRef.current.position.set(0, 0, 0)
+        }
+        if (coreRef.current) {
+          coreRef.current.position.set(0, 0, 0)
         }
       }
     }
@@ -213,66 +184,71 @@ const FloatingLogo = () => {
     }
   }, [isDragging, dragStart, baseRotation, isMobile])
 
-  // Fallback cube si falla el modelo
-  if (error || !scene) {
-    console.warn('Falling back to cube due to model loading error')
-    return (
-      <group>
-        <mesh 
-          ref={meshRef} 
-          castShadow 
-          receiveShadow
-          onPointerDown={handlePointerDown}
-          onPointerEnter={() => !isDragging && (gl.domElement.style.cursor = 'grab')}
-          onPointerLeave={() => !isDragging && (gl.domElement.style.cursor = 'default')}
-        >
-          <boxGeometry args={[10, 10, 10]} /> {/* Cambia estos valores para el tamaño del cubo */}
-          <meshStandardMaterial
-            color={isDragging ? "#F44C6A" : "#D22C46"}
-            metalness={0.8}
-            roughness={0.1}
-            transparent
-            opacity={isDragging ? 1 : 0.9}
-            emissive={isDragging ? "#A01E35" : "#8B1E2B"}
-            emissiveIntensity={isDragging ? 0.5 : 0.3}
-          />
-        </mesh>
-        
-        <mesh ref={wireframeRef}>
-          <boxGeometry args={[10.2, 10.2, 10.2]} /> {/* Wireframe ligeramente más grande */}
-          <meshBasicMaterial
-            color={isDragging ? "#F87A8E" : "#E85A70"}
-            wireframe
-            transparent
-            opacity={isDragging ? 0.6 : 0.4}
-          />
-        </mesh>
-        
-        <lineSegments ref={edgesRef}>
-          <edgesGeometry args={[new THREE.BoxGeometry(10, 10, 10)]} /> {/* Edges igual al cubo principal */}
-          <lineBasicMaterial
-            color={isDragging ? "#FFABC1" : "#F0849A"}
-            transparent
-            opacity={isDragging ? 0.8 : 0.6}
-          />
-        </lineSegments>
-      </group>
-    )
-  }
-
-  // Renderizar el modelo GLTF con color forzado y solo rotación sobre su eje
+  // Renderizar cubo simplificado
   return (
-    <group
-      ref={meshRef}
-      scale={[20, 20, 20]}
-      castShadow
-      receiveShadow
-      onPointerDown={handlePointerDown}
-      onTouchStart={handlePointerDown}
-      onPointerEnter={() => !isDragging && (gl.domElement.style.cursor = 'grab')}
-      onPointerLeave={() => !isDragging && (gl.domElement.style.cursor = 'default')}
-    >
-      <primitive object={scene.clone()} />
+    <group>
+      {/* Outer glass cube */}
+      <mesh 
+        ref={meshRef} 
+        castShadow 
+        receiveShadow
+        onPointerDown={handlePointerDown}
+        onTouchStart={handlePointerDown}
+        onPointerEnter={() => !isDragging && (gl.domElement.style.cursor = 'grab')}
+        onPointerLeave={() => !isDragging && (gl.domElement.style.cursor = 'default')}
+      >
+        <boxGeometry args={[1.5, 1.5, 1.5]} />
+        <meshPhysicalMaterial
+          color="#001122"
+          metalness={0.1}
+          roughness={0.05}
+          transparent
+          opacity={0.15}
+          transmission={0.95}
+          thickness={0.8}
+          ior={1.5}
+          clearcoat={1.0}
+          clearcoatRoughness={0.0}
+          envMapIntensity={1.0}
+        />
+      </mesh>
+
+      {/* Inner energy mass */}
+      <mesh ref={innerEnergyRef}>
+        <octahedronGeometry args={[0.5, 2]} />
+        <meshStandardMaterial
+          color="#00ff44"
+          emissive="#00ff44"
+          emissiveIntensity={0.4}
+          transparent
+          opacity={0.6}
+          roughness={0.3}
+          metalness={0.2}
+        />
+      </mesh>
+
+      {/* Bright energy core */}
+      <mesh ref={coreRef}>
+        <sphereGeometry args={[0.2, 16, 16]} />
+        <meshStandardMaterial
+          color="#44ff88"
+          emissive="#44ff88"
+          emissiveIntensity={2.0}
+          transparent
+          opacity={0.9}
+        />
+      </mesh>
+      
+      {/* Glowing cube edges */}
+      <lineSegments ref={edgesRef}>
+        <edgesGeometry args={[new THREE.BoxGeometry(1.5, 1.5, 1.5)]} />
+        <lineBasicMaterial
+          color="#00ddff"
+          transparent
+          opacity={0.8}
+          linewidth={2}
+        />
+      </lineSegments>
     </group>
   )
 }

@@ -40,16 +40,16 @@ const InfoButton = () => {
               ×
             </button>
             <div className="info-modal-content">
-              <h3 className="info-modal-title">ELEVTOBER 3D TECHNICAL DEMO</h3>
+              <h3 className="info-modal-title">JMCDEV 3D TECHNICAL DEMO</h3>
               <p className="info-modal-description">
-            Interactive 3D page to demonstrate how the use of modern web technologies serves to tell the story and services of Elevtober. 
+            Interactive 3D page to demonstrate how the use of modern web technologies serves to tell the story of your brand. 
 
               </p>
               <div className="info-modal-features">
                 <span><strong>THIS DEMO SHOWS THE POSSIBLE MAIN PAGE DESIGN</strong></span>
                 <div className="feature-item">
                   <span className="feature-icon">🎯</span>
-                  <span>Interactive 3D Custom Elevtober logo model</span>
+                  <span>Interactive 3D Custom 3D logo model</span>
                 </div>
                 <div className="feature-item">
                   <span className="feature-icon">✨</span>
@@ -57,7 +57,7 @@ const InfoButton = () => {
                 </div>
                 <div className="feature-item">
                   <span className="feature-icon">💡</span>
-                  <span>Based on ohzi.io (as we discussed in the meeting)</span>
+                  <span>Based on <a href="https://ohzi.io" target="_blank" rel="noopener noreferrer">ohzi.io</a></span>
                 </div>
                      <div className="feature-item">
                   <span className="feature-icon">⚙️</span>

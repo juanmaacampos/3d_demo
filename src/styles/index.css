@@ -27,7 +27,7 @@ body {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.25em;
-  text-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+  text-shadow: 0 0 10px rgba(8, 137, 45, 0.3);
   font-size: 2rem;
   line-height: 1.2;
   pointer-events: none;
@@ -87,6 +87,6 @@ html {
 
 /* Text selection with brand color */
 ::selection {
-  background: rgba(239, 68, 68, 0.3);
+  background: rgba(8, 137, 45, 0.3);
   color: white;
 }

@@ -30,7 +30,7 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, #EF4444, #DC2626);
+  background: linear-gradient(90deg, #08892D, #0aa035);
   transition: width 0.3s ease;
 }
 
@@ -96,7 +96,7 @@
 
 .nav-link-mobile:hover {
   color: white;
-  background: rgba(239, 68, 68, 0.1);
+  background: rgba(8, 137, 45, 0.1);
 }
 
 /* Mobile styles */

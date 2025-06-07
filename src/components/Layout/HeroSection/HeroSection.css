@@ -28,11 +28,11 @@
   text-transform: uppercase;
   letter-spacing: 0.35em;
   margin: 0;
-  background: linear-gradient(135deg, #ffffff 0%, #EF4444 50%, #DC2626 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #0aa035 50%, #08892D 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
+  text-shadow: 0 0 30px #08892D;
   /* Make text non-selectable and non-interactive */
   -webkit-user-select: none;
   -moz-user-select: none;

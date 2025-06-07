@@ -40,7 +40,7 @@ const TriangleInstances = ({ mouse }) => {
     const instancedMesh = new THREE.InstancedMesh(
       triangleGeometry,
       new THREE.MeshBasicMaterial({
-        color: '#EF4444',
+        color: '#08892D',
         transparent: true,
         opacity: 0.15,
         wireframe: true

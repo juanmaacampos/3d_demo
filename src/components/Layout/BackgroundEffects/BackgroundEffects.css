@@ -22,7 +22,7 @@
 .orb-1 {
   width: 200px;
   height: 200px;
-  background: radial-gradient(circle, rgba(239, 68, 68, 0.3) 0%, rgba(220, 38, 38, 0.2) 50%, transparent 70%);
+  background: radial-gradient(circle, rgba(8, 137, 45, 0.3) 0%, rgba(10, 160, 53, 0.2) 50%, transparent 70%);
   top: 20%;
   left: 15%;
   animation-delay: 0s;
@@ -31,7 +31,7 @@
 .orb-2 {
   width: 150px;
   height: 150px;
-  background: radial-gradient(circle, rgba(220, 38, 38, 0.2) 0%, rgba(185, 28, 28, 0.15) 50%, transparent 70%);
+  background: radial-gradient(circle, rgba(10, 160, 53, 0.2) 0%, rgba(8, 137, 45, 0.15) 50%, transparent 70%);
   top: 60%;
   right: 20%;
   animation-delay: -4s;
@@ -40,7 +40,7 @@
 .orb-3 {
   width: 100px;
   height: 100px;
-  background: radial-gradient(circle, rgba(185, 28, 28, 0.15) 0%, rgba(153, 27, 27, 0.1) 50%, transparent 70%);
+  background: radial-gradient(circle, rgba(8, 137, 45, 0.15) 0%, rgba(6, 120, 35, 0.1) 50%, transparent 70%);
   bottom: 30%;
   left: 70%;
   animation-delay: -8s;
@@ -70,10 +70,10 @@
   position: absolute;
   width: 2px; /* Reduced from 3px */
   height: 2px;
-  background: #EF4444;
+  background: #08892D;
   border-radius: 50%;
   animation: particleFloat 15s linear infinite;
-  box-shadow: 0 0 8px #EF4444; /* Reduced */
+  box-shadow: 0 0 8px #08892D; /* Reduced */
   opacity: 0.7; /* Added */
 }
 
@@ -87,16 +87,16 @@
   top: 30%;
   right: 10%;
   animation-delay: -5s;
-  background: #DC2626;
-  box-shadow: 0 0 10px #DC2626;
+  background: #0aa035;
+  box-shadow: 0 0 10px #0aa035;
 }
 
 .particle-3 {
   bottom: 20%;
   left: 30%;
   animation-delay: -10s;
-  background: #B91C1C;
-  box-shadow: 0 0 10px #B91C1C;
+  background: #066d23;
+  box-shadow: 0 0 10px #066d23;
 }
 
 .particle-4 {
@@ -109,8 +109,8 @@
   bottom: 40%;
   right: 5%;
   animation-delay: -7s;
-  background: #DC2626;
-  box-shadow: 0 0 10px #DC2626;
+  background: #0aa035;
+  box-shadow: 0 0 10px #0aa035;
 }
 
 @keyframes particleFloat {
@@ -139,8 +139,8 @@
   width: 100%;
   height: 100%;
   background-image: 
-    linear-gradient(rgba(239, 68, 68, 0.02) 1px, transparent 1px), /* Reduced from 0.03 */
-    linear-gradient(90deg, rgba(239, 68, 68, 0.02) 1px, transparent 1px);
+    linear-gradient(rgba(8, 137, 45, 0.02) 1px, transparent 1px), /* Reduced from 0.03 */
+    linear-gradient(90deg, rgba(8, 137, 45, 0.02) 1px, transparent 1px);
   background-size: 60px 60px;
   opacity: 0.3; /* Reduced from 0.4 */
   animation: gridShift 20s linear infinite;
@@ -167,7 +167,7 @@
 .spot-1 {
   width: 300px;
   height: 300px;
-  background: radial-gradient(circle, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.05) 30%, transparent 70%);
+  background: radial-gradient(circle, rgba(8, 137, 45, 0.1) 0%, rgba(10, 160, 53, 0.05) 30%, transparent 70%);
   top: 5%;
   left: 5%;
   animation: pulseBig 10s ease-in-out infinite;
@@ -176,7 +176,7 @@
 .spot-2 {
   width: 250px;
   height: 250px;  
-  background: radial-gradient(circle, rgba(220, 38, 38, 0.08) 0%, rgba(185, 28, 28, 0.04) 30%, transparent 70%);
+  background: radial-gradient(circle, rgba(10, 160, 53, 0.08) 0%, rgba(8, 137, 45, 0.04) 30%, transparent 70%);
   bottom: 10%;
   right: 10%;
   animation: pulseBig 12s ease-in-out infinite reverse;
@@ -185,7 +185,7 @@
 .spot-3 {
   width: 200px;
   height: 200px;
-  background: radial-gradient(circle, rgba(185, 28, 28, 0.06) 0%, rgba(153, 27, 27, 0.03) 30%, transparent 70%);
+  background: radial-gradient(circle, rgba(8, 137, 45, 0.06) 0%, rgba(6, 120, 35, 0.03) 30%, transparent 70%);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -207,7 +207,7 @@
 /* Rotating rings - reduced opacity */
 .rotating-ring {
   position: absolute;
-  border: 1px solid rgba(239, 68, 68, 0.06); /* Reduced from 0.1 */
+  border: 1px solid rgba(8, 137, 45, 0.06); /* Reduced from 0.1 */
   border-radius: 50%;
   animation: rotateClockwise 30s linear infinite;
 }
@@ -217,7 +217,7 @@
   height: 300px;
   top: 20%;
   right: 15%;
-  border-color: rgba(239, 68, 68, 0.04); /* Reduced */
+  border-color: rgba(8, 137, 45, 0.04); /* Reduced */
 }
 
 .ring-2 {
@@ -225,7 +225,7 @@
   height: 200px;
   bottom: 25%;
   left: 20%;
-  border-color: rgba(220, 38, 38, 0.03); /* Reduced */
+  border-color: rgba(10, 160, 53, 0.03); /* Reduced */
   animation: rotateCounterClockwise 25s linear infinite;
 }
 

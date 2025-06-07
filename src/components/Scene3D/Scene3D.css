@@ -29,19 +29,34 @@
   touch-action: none;
 }
 
-/* Add subtle glow effect to the 3D scene with brand colors */
+/* Add intense glow effect to match the energy cube */
 .scene3d-container::after {
   content: '';
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(239, 68, 68, 0.15) 0%, transparent 70%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0, 255, 68, 0.6) 0%, rgba(0, 255, 136, 0.4) 20%, rgba(0, 221, 255, 0.2) 40%, rgba(68, 255, 136, 0.1) 60%, transparent 80%);
   border-radius: 50%;
   pointer-events: none;
   z-index: -1;
+  animation: energyPulse 3s ease-in-out infinite alternate;
+  filter: blur(3px);
+}
+
+@keyframes energyPulse {
+  0% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(0.8);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.2);
+    filter: blur(2px);
+  }
 }
 
 /* Responsive adjustments */
@@ -59,14 +74,14 @@
   }
   
   .scene3d-container::after {
-    width: 250px;
-    height: 250px;
+    width: 400px;
+    height: 400px;
   }
 }
 
 @media (max-width: 480px) {
   .scene3d-container::after {
-    width: 180px;
-    height: 180px;
+    width: 300px;
+    height: 300px;
   }
 }

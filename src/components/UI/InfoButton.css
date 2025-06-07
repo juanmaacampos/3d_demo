@@ -26,11 +26,11 @@
 }
 
 .info-button:hover {
-  border-color: rgba(239, 68, 68, 0.8);
+  border-color: #08892D;
   color: white;
-  background: rgba(239, 68, 68, 0.1);
+  background: #08892D;
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);
+  box-shadow: 0 4px 15px #08892D;
 }
 
 .info-button svg {
@@ -65,7 +65,7 @@
 .info-modal {
   position: relative;
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(20, 20, 20, 0.95) 100%);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  border: 1px solid #08892D;
   backdrop-filter: blur(20px);
   padding: 2rem;
   max-width: 500px;
@@ -73,7 +73,7 @@
   max-height: 80vh;
   overflow-y: auto;
   animation: slideIn 0.4s ease;
-  box-shadow: 0 20px 60px rgba(239, 68, 68, 0.1);
+  box-shadow: 0 20px 60px #08892D;
 }
 
 .info-modal-close {
@@ -110,7 +110,7 @@
   margin: 0 0 1rem 0;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  background: linear-gradient(135deg, #ffffff 0%, #EF4444 50%, #DC2626 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #08892D 50%, #08892D 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -166,7 +166,7 @@
 
 .info-modal-tech {
   font-family: 'Exo 2', sans-serif;
-  color: rgba(239, 68, 68, 0.8);
+  color: #08892D;
   font-size: 0.9rem;
   font-weight: 500;
   margin: 1.5rem 0 0 0;
